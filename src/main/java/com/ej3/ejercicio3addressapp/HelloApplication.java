@@ -29,13 +29,25 @@ public class HelloApplication extends Application {
         stage.show();
     }
 
-    private void loadLayouts() throws IOException {
-        rootLayout = new FXMLLoader(HelloApplication.class.getResource("RootLayout.fxml")).load();
-        menu = new FXMLLoader(HelloApplication.class.getResource("hello-view.fxml")).load();
+    private void loadLayouts(){
+        try {
+            FXMLLoader loader = new FXMLLoader();
+            loader.setLocation(HelloApplication.class.getResource(APP_XML));
+            rootLayout = loader.load();
 
-        rootLayout.setCenter(menu);
+            FXMLLoader loader2 = new FXMLLoader();
+            loader2.setLocation(HelloApplication.class.getResource(USER_MENU_XML));
+            menu = loader2.load();
 
-        PersonOverviewController controller = new FXMLLoader(HelloApplication.class.getResource("PersonOverview.fxml")).getController();
+            rootLayout.setCenter(menu);
+
+            PersonOverviewController controller = loader2.getController();
+            controller.setMainApp(this);
+
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+
     }
 
     public HelloApplication() {
