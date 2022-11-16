@@ -5,6 +5,7 @@ import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Scene;
+import javafx.scene.image.Image;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.BorderPane;
 import javafx.stage.Modality;
@@ -26,6 +27,8 @@ public class HelloApplication extends Application {
     @Override
     public void start(Stage primaryStage) throws IOException {
         primaryStage.setTitle("AddressApp");
+//        this.primaryStage.getIcons().add(new Image("src/main/resources/img/adress-book.png"));
+
         loadLayouts();
         Scene scene = new Scene(rootLayout);
         primaryStage.setScene(scene);

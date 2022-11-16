@@ -8,7 +8,7 @@
 <?import javafx.scene.layout.GridPane?>
 <?import javafx.scene.layout.RowConstraints?>
 
-<AnchorPane prefHeight="290.0" prefWidth="507.0" xmlns="http://javafx.com/javafx/18" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.ej3.ejercicio3addressapp.PersonEditDialogController">
+<AnchorPane prefHeight="290.0" prefWidth="507.0" styleClass="background" stylesheets="@DarkTheme.css" xmlns="http://javafx.com/javafx/18" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.ej3.ejercicio3addressapp.PersonEditDialogController">
    <children>
       <GridPane prefHeight="235.0" prefWidth="507.0" AnchorPane.leftAnchor="10.0" AnchorPane.rightAnchor="10.0" AnchorPane.topAnchor="10.0">
         <columnConstraints>
@@ -38,7 +38,7 @@
             <TextField fx:id="birthdayField" GridPane.columnIndex="1" GridPane.rowIndex="5" />
          </children>
       </GridPane>
-      <Button layoutX="297.0" layoutY="251.0" mnemonicParsing="false" onAction="#handleOk" prefHeight="25.0" prefWidth="91.0" text="OK" />
+      <Button defaultButton="true" layoutX="297.0" layoutY="251.0" mnemonicParsing="false" onAction="#handleOk" prefHeight="25.0" prefWidth="91.0" text="OK" />
       <Button layoutX="402.0" layoutY="251.0" mnemonicParsing="false" onAction="#handleCancel" prefHeight="25.0" prefWidth="91.0" text="Cancel" />
    </children>
 </AnchorPane>
