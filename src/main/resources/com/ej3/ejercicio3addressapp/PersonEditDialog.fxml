@@ -24,7 +24,7 @@
             <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
         </rowConstraints>
          <children>
-            <Label prefHeight="17.0" prefWidth="60.0" text="First Name" />
+            <Label prefHeight="17.0" prefWidth="147.0" text="First Name" textAlignment="CENTER" wrapText="true" />
             <Label prefHeight="17.0" prefWidth="60.0" text="Last Name" GridPane.rowIndex="1" />
             <Label prefHeight="17.0" prefWidth="60.0" text="Street" GridPane.rowIndex="2" />
             <Label prefHeight="17.0" prefWidth="60.0" text="City" GridPane.rowIndex="3" />
