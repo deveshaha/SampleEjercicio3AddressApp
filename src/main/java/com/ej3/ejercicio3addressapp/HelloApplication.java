@@ -15,18 +15,20 @@ public class HelloApplication extends Application {
     private static final String APP_XML = "RootLayout.fxml";
     private static final String USER_MENU_XML = "hello-view.fxml";
 
+    private Stage primaryStage;
+
     private AnchorPane menu;
     private BorderPane rootLayout;
 
     private ObservableList<Person> personData = FXCollections.observableArrayList();
 
     @Override
-    public void start(Stage stage) throws IOException {
-        stage.setTitle("AddressApp");
+    public void start(Stage primaryStage) throws IOException {
+        primaryStage.setTitle("AddressApp");
         loadLayouts();
         Scene scene = new Scene(rootLayout);
-        stage.setScene(scene);
-        stage.show();
+        primaryStage.setScene(scene);
+        primaryStage.show();
     }
 
     private void loadLayouts(){
@@ -65,8 +67,11 @@ public class HelloApplication extends Application {
     public ObservableList<Person> getPersonData() {
         return personData;
     }
-
-
+    
+    public Stage getPrimaryStage() {
+        return primaryStage;
+    }
+    
     public static void main(String[] args) {
         launch();
     }
