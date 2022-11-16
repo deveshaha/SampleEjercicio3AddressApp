@@ -32,7 +32,6 @@ public class DateUtil {
     }
 
     public static boolean validDate(String dateString) {
-        // Try to parse the String.
         return DateUtil.parse(dateString) != null;
     }
 
