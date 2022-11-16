@@ -1,13 +1,15 @@
 package com.ej3.ejercicio3addressapp;
 
+import com.ej3.ejercicio3addressapp.util.DateUtil;
 import javafx.fxml.FXML;
 import javafx.scene.control.Alert;
 import javafx.scene.control.Label;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
 
+import java.time.LocalDate;
+
 public class PersonOverviewController {
-    String DateUtil;
 
     @FXML
     private TableView<Person> personTable;
@@ -35,7 +37,6 @@ public class PersonOverviewController {
 
     }
 
-
     @FXML
     private void initialize() {
         firstNameColumn.setCellValueFactory(cellData -> cellData.getValue().firstNameProperty());
@@ -60,7 +61,7 @@ public class PersonOverviewController {
             streetLabel.setText(person.getStreet());
             postalCodeLabel.setText(Integer.toString(person.getPostalCode()));
             cityLabel.setText(person.getCity());
-            birthdayLabel.setText(DateUtil.format(String.valueOf(person.getBirthday())));
+            birthdayLabel.setText(DateUtil.format(person.getBirthday()));
 
         } else {
             firstNameLabel.setText("");
@@ -89,6 +90,36 @@ public class PersonOverviewController {
             alert.showAndWait();
         }
 
+    }
+
+    @FXML
+    private void handleNewPerson() {
+        Person tempPerson = new Person();
+        boolean okClicked = helloApplication.showPersonEditDialog(tempPerson);
+        if (okClicked) {
+            helloApplication.getPersonData().add(tempPerson);
+        }
+    }
+
+    @FXML
+    private void handleEditPerson() {
+        Person selectedPerson = personTable.getSelectionModel().getSelectedItem();
+        if (selectedPerson != null) {
+            boolean okClicked = helloApplication.showPersonEditDialog(selectedPerson);
+            if (okClicked) {
+                showPersonDetails(selectedPerson);
+            }
+
+        } else {
+            System.out.println("No selection");
+            Alert alert = new Alert(Alert.AlertType.WARNING);
+            alert.initOwner(helloApplication.getPrimaryStage());
+            alert.setTitle("No Selection");
+            alert.setHeaderText("No Person Selected");
+            alert.setContentText("Please select a person in the table.");
+
+            alert.showAndWait();
+        }
     }
 
 }
