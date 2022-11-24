@@ -5,12 +5,19 @@ import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Scene;
+import javafx.scene.control.Alert;
 import javafx.scene.image.Image;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.BorderPane;
 import javafx.stage.Modality;
 import javafx.stage.Stage;
 
+import javax.xml.bind.JAXBContext;
+import javax.xml.bind.JAXBException;
+import javax.xml.bind.Marshaller;
+import java.util.prefs.Preferences;
+
+import java.io.File;
 import java.io.IOException;
 
 public class HelloApplication extends Application {
@@ -98,6 +105,91 @@ public class HelloApplication extends Application {
         } catch (IOException e) {
             e.printStackTrace();
             return false;
+        }
+    }
+
+    public File getPersonFilePath(){
+        Preferences prefs = Preferences.userNodeForPackage(HelloApplication.class);
+        String filePath = prefs.get("filepath", null);
+        if (filePath != null){
+            return new File(filePath);
+        } else {
+            return null;
+        }
+    }
+
+    public void setPersonFilePath(File file){
+        Preferences prefs = Preferences.userNodeForPackage(HelloApplication.class);
+        if (file != null){
+            prefs.put("filepath", file.getPath());
+            primaryStage.setTitle("AddressApp - " + file.getName());
+        } else {
+            prefs.remove("filepath");
+            primaryStage.setTitle("AddressApp");
+        }
+    }
+
+    public void loadPersonDataFromFile(File file){
+        try {
+            JAXBContext context = JAXBContext.newInstance(PersonWrapper.class);
+            PersonWrapper wrapper = (PersonWrapper) context.createUnmarshaller().unmarshal(file);
+
+            personData.clear();
+            personData.addAll(wrapper.getPersons());
+
+            setPersonFilePath(file);
+
+        } catch (JAXBException e) {
+            Alert alert = new Alert(Alert.AlertType.ERROR);
+            alert.setTitle("Error");
+            alert.setHeaderText(null);
+            alert.setContentText("Could not load data from:\n" + file.getPath());
+            alert.showAndWait();
+        }
+    }
+
+    public void savePersonDataToFile(File file){
+        try {
+            JAXBContext context = JAXBContext.newInstance(PersonWrapper.class);
+            Marshaller m = context.createMarshaller();
+            m.setProperty(Marshaller.JAXB_FORMATTED_OUTPUT, true);
+
+            PersonWrapper wrapper = new PersonWrapper();
+            wrapper.setPersons(personData);
+
+            m.marshal(wrapper, file);
+
+            setPersonFilePath(file);
+
+        } catch (JAXBException e) {
+            Alert alert = new Alert(Alert.AlertType.ERROR);
+            alert.setTitle("Error");
+            alert.setHeaderText(null);
+            alert.setContentText("Could not save data to:\n" + file.getPath());
+            alert.showAndWait();
+        }
+    }
+
+    public void initRootLayout(){
+        try {
+            FXMLLoader loader = new FXMLLoader();
+            loader.setLocation(HelloApplication.class.getResource(APP_XML));
+            rootLayout = loader.load();
+
+            Scene scene = new Scene(rootLayout);
+            primaryStage.setScene(scene);
+
+            RootLayoutController controller = loader.getController();
+            controller.setMainApp(this);
+
+            primaryStage.show();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+
+        File file = getPersonFilePath();
+        if (file != null){
+            loadPersonDataFromFile(file);
         }
     }
     
